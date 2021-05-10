@@ -98,6 +98,17 @@
 		},
 
 		methods: {
+			getHomePageData(){
+				uniCloud.callFunction({
+					name:'getHomePageData'
+				}).then(res=>{
+					if(res.success === true){
+						console.log(res.result)
+					}else{
+						console.log('获取首页数据失败')
+					}
+				})
+			},
 			gotoPodcastPage(id) {
 				uni.navigateTo({
 					url: '../podcast/podcast?id=' + id
@@ -120,6 +131,7 @@
 			},
 		},
 		onLoad() {
+			this.getHomePageData()
 			uniCloud.callFunction({
 				name: 'getSetting'
 			}).then(res => {
