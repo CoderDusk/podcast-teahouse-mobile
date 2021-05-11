@@ -143,10 +143,10 @@
 			},
 		},
 		created() {
-			this.getHomePageData()
+			// this.getHomePageData()
 		},
 		onLoad() {
-			// this.getHomePageData()
+			this.getHomePageData()
 			
 			this.exportList = uni.getStorageSync('exportList')
 			if (this.exportList == '') {
