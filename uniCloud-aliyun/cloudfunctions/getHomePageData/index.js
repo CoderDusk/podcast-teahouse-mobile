@@ -2,21 +2,27 @@
 exports.main = async (event, context) => {
 	let data = {}
 	// 获取网站设置
-	data.setting = await uniCloud.database().collection('setting').get()
-	data.setting = data.setting.data[0]
+	data.setting = (await uniCloud.database().collection('setting').get()).data[0]
 	// 获取播客列表
-	data.podcastList = uniCloud.database().collection('podcast').get()
+	data.podcastList = (await uniCloud.database().collection('podcast').orderBy('sort','desc').get()).data
 	// 获取链接列表
-	data.linkList = uniCloud.database().collection('link').get()
+	data.linkList = (await uniCloud.database().collection('link').orderBy('sort','desc').get()).data
 	// 获取推荐播客列表
-	data.recommendPodcastList = uniCloud.database().collection('podcast').where({isRecommended:true}).get()
+	data.recommendPodcastList = (await uniCloud.database().collection('podcast').where({
+		isRecommended: true
+	}).orderBy('sort','desc').get()).data
 	// 获取播客分类列表
-	let categoryDB = uniCloud.database().collection('category')
-	data.podcastCategoryList = categoryDB.get()
+	let podcastCategoryList = (await uniCloud.database().collection('category').where({
+		type: 'podcast'
+	}).orderBy('sort','desc').get()).data
+	data.podcastCategoryList = podcastCategoryList
 	// 获取链接分类列表
-	data.linkCategoryList = categoryDB.where({type:'link'})
+	let linkCategoryList = (await uniCloud.database().collection('category').where({
+		type: 'link'
+	}).orderBy('sort','desc').get()).data
+	data.linkCategoryList = linkCategoryList
 	
+	data.categoryList = podcastCategoryList.concat(linkCategoryList)
+
 	return data
-	// let setting = uniCloud.database().collection('setting').get()
-	// return setting
 };
