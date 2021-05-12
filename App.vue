@@ -13,6 +13,9 @@
 		},
 		onHide: function() {
 
+		},
+		globalData:{
+			currentEpisode:{},
 		}
 	}
 </script>

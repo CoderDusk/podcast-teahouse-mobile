@@ -5,6 +5,9 @@ import App from './App'
 import uView from "uview-ui";
 Vue.use(uView);
 
+// 引入工具函数
+import tools from 'common/tools.js'
+Vue.prototype.tools = tools
 
 Vue.config.productionTip = false
 

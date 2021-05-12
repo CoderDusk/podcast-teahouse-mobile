@@ -25,22 +25,25 @@
 			</view>
 		</view>
 		<view class="latestEpisodes" v-for="(item,index) in episodeList" :key="index">
-			<view class="episode">
-				<view class="logo">
-					<image :src="item.itunes.image" class="episode-cover"></image>
-				</view>
-				<view class="info">
-					<view class="title">{{item.title}}</view>
-					<view class="time">
-						<u-icon name="clock" color="gray" size="28"></u-icon>
-						{{item.itunes.duration}}
-						<text class="dot">·</text>
-						{{new Date(item.isoDate).toLocaleDateString()}}
+			<view class="episode" @click="gotoEpisodePage(item)">
+				<view class="left">
+					<view class="logo">
+						<image :src="item.itunes.image" class="episode-cover"></image>
 					</view>
-					<view>
-						
+					<view class="info">
+						<view class="title">{{item.title}}</view>
+						<view class="time">
+							<u-icon name="clock" color="gray" size="28"></u-icon>
+							{{item.itunes.duration}}
+							<text class="dot">·</text>
+							{{new Date(item.isoDate).toLocaleDateString()}}
+						</view>
+						<view>
+							
+						</view>
 					</view>
 				</view>
+				
 				<view class="play-button">
 					<u-icon name="play-circle-fill" color="#86C166" size="80"></u-icon>
 				</view>
@@ -110,12 +113,18 @@
 				this.episodeList.forEach((item,index,array)=>{
 					// console.log(new Date(item.isoDate).toLocaleDateString())
 				})
-				console.log(this.episodeList)
+				// console.log(this.episodeList)
 			},
 			parserURL(){
 				if(this.podcastInfo.rssLink.indexOf('http') < 0){
 					this.podcastInfo.rssLink = 'http://' + this.podcastInfo.rssLink
 				}
+			},
+			gotoEpisodePage(episode){
+				getApp().globalData.currentEpisode = episode
+				uni.navigateTo({
+					url:'../player/player'
+				})
 			}
 		},
 		onLoad(options){
@@ -211,6 +220,10 @@
 			border-bottom: 1px solid gray;
 			padding:10px 0;
 			// margin-top: 20rpx;
+			
+			.left{
+				display: flex;
+			}
 			
 			.episode-cover{
 				width: 150rpx;
